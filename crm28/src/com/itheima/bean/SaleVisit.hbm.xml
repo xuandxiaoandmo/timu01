@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.itheima.bean.SaleVisit" table="sale_visit">
+		<id name="visit_id">
+			<generator class="uuid"></generator>
+		</id>
+
+		
+		<property name="visit_time"/>
+		<property name="visit_nexttime"/>
+		<property name="visit_addr"/>
+		<property name="visit_detail"/>
+		
+			<!-- //1. 谁去执行的拜访
+			private User user;
+			
+			//2. 拜访的是哪一个客户
+			private Customer customer;
+			
+			//3. 拜访的是客户里面的哪个联系人
+			private LinkMan linkMan; -->
+			
+		 <many-to-one name="user" column="visit_user_id" class="com.itheima.bean.User"></many-to-one>
+		 <many-to-one name="customer" column="visit_cust_id" class="com.itheima.bean.Customer"></many-to-one>
+		 <many-to-one name="linkMan" column="visit_lkm_id" class="com.itheima.bean.LinkMan"></many-to-one>
+	</class>
+</hibernate-mapping>

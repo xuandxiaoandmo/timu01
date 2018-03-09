@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.itheima.bean.LinkMan" table="cst_linkman">
+		<id name="lkm_id">
+			<generator class="native"></generator>
+		</id>
+		
+		
+		<property name="lkm_name"/>
+		<property name="lkm_gender"/>
+		<property name="lkm_phone"/>
+		<property name="lkm_mobile"/>
+		<property name="lkm_email"/>
+		<property name="lkm_qq"/>
+		<property name="lkm_position"/>
+		<property name="lkm_memo"/>
+		
+		<!-- 联系人和客户的关系是多对一的关系 -->
+		<many-to-one name="customer" column="lkm_cust_id" class="com.itheima.bean.Customer"/>
+	</class>
+</hibernate-mapping>

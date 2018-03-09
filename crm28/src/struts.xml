@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+	
+<struts>
+	<constant name="struts.ui.theme" value="simple"></constant>
+	<constant name="struts.multipart.maxSize" value="209715200"></constant>
+	
+	<package name ="base" namespace="/" extends="json-default">
+		
+		<!-- 1. 声明拦截器  -->
+		<interceptors>
+			<interceptor name="LoginInterceptor" class="com.itheima.web.interceptor.LoginInterceptor">
+				<param name="excludeMethods">login</param>
+			</interceptor>
+			
+			<!-- 2. 表示有一个拦截器栈，里面有自己的拦截器，也有默认的拦截器 -->
+			<interceptor-stack name="baseStack">
+				<interceptor-ref name="LoginInterceptor"/>
+				<interceptor-ref name="defaultStack"/>
+			</interceptor-stack>
+		</interceptors>
+		
+		
+		<!-- 2. 使用拦截器 -->
+		<default-interceptor-ref name="baseStack"/>
+		
+		<!-- 3. 跳转result -->
+		<global-results>
+			<result name="login" type="redirect">/login.jsp</result>
+		</global-results>
+	</package>
+	
+	<!-- 以下属于用户模块 6666-->
+	<package name="user" namespace="/" extends="base">
+	
+		<action name="user_*" class="userAction" method="{1}">
+			
+			<result name="login_success" type="redirect">/index.jsp</result>
+			<result name="login_error">/login.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 以下属于拜访模块-->
+	<package name="saleVisit" namespace="/" extends="base">
+	
+		
+		<action name="saleVisit_*" class="saleVisitAction" method="{1}">
+		
+			
+			<result name="page_success">/jsp/visit/list.jsp</result>
+			<result name="input_error">/jsp/visit/list.jsp</result>
+		</action>
+	</package>
+	
+	<!-- 以下属于客户模块 -->
+	<package name="customer" namespace="/" extends="base">
+		<action name="customer_*" class="customerAction" method="{1}">
+			<result name="input_error">/jsp/customer/add.jsp</result>
+			<result name="page_success">/jsp/customer/list.jsp</result>
+			<result name="edit_success">/jsp/customer/edit.jsp</result>
+			
+		<!-- 	action: chain  & redirectAction
+			jsp: 请求转发  dispatcher & 重定向  redirect -->
+			
+			<result name="save_success" type="redirectAction">customer_findByPage</result>
+			<result name="delete_success" type="redirectAction">customer_findByPage.action</result>
+			<result name="update_success" type="redirectAction">customer_findByPage.action</result>
+			
+			
+			<result name="json_success" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
+	</package>
+	
+	<!-- 以下属于字典模块 -->
+	<package name="baseDict" namespace="/" extends="base">
+		<action name="baseDict_*" class="baseDictAction" method="{1}">
+			<result name="json_success" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
+	</package>
+	<!-- 以下属于联系人模块 -->
+	<package name="linkMan" namespace="/" extends="base">
+		<action name="linkMan_*" class="linkManAction" method="{1}">
+			<result name="page_success">/jsp/linkman/list.jsp</result>
+			
+			<result name="edit_success">/jsp/linkman/edit.jsp</result>
+			
+			<result name="delete_success" type="redirectAction">linkMan_findByPage</result>
+			<result name="save_success" type="redirectAction">linkMan_findByPage.action</result>
+			<result name="update_success" type="redirectAction">linkMan_findByPage.action</result>
+			
+			<result name="json_success" type="json">
+				<param name="root">list</param>
+			</result>
+		</action>
+	</package>
+
+</struts>	

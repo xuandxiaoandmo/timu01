@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.itheima.bean.Customer" table="cst_customer">
+		<id name="cust_id">
+			<generator class="native"></generator>
+		</id>
+		
+		<property name="cust_name"/>
+		<!-- <property name="cust_source"/>
+		<property name="cust_industry"/>
+		<property name="cust_level"/> -->
+		<property name="cust_phone"/>
+		<property name="cust_address"/>
+		<property name="cust_image"/>
+		
+		
+		
+		<!-- <property name="cust_user_id"/>
+		<property name="cust_create_id"/> -->
+		<!-- 客户和用户的关系是什么关系？  -->
+		<many-to-one name="cust_user_id" lazy="false" class="com.itheima.bean.User"></many-to-one>
+		<many-to-one name="cust_create_id" lazy="false" class="com.itheima.bean.User"></many-to-one>
+		
+		
+		<!-- 这里要体现客户和字典的关系了，客户和字典的关系是： 多对一 
+		
+			name: 属性的名称
+			class : 表示和哪一个表建立关系
+			
+			1. 怎么不写column ? 
+			
+				不用写，column 大部分都是那个意思，用于表示列的名字。  只在一个地方必须要写， 在一的那一边要写。
+				
+			2. 为什么不在字典 （一方） 也发起关系的维护呢? 程序来源生活
+			
+				其实两张表创建关系，不一定要双方都发起关系维护。  表与表之间的关系，有单向关系  | 双向关系。
+				
+				单向关系 ： 客户建立关系。 
+					以后我查询客户的时候，顺便也能查询到字典数据
+					以后我查询字典数据，不能自动的查询到客户数据。 
+					
+				双向关系：
+					不管查询哪一边，都能自动的关联到另一个表的数据。  hibernate  对象导航查询。
+		-->
+		
+		<many-to-one name="cust_source" lazy="false" class="com.itheima.bean.BaseDict"/>
+		<many-to-one name="cust_industry" lazy="false" class="com.itheima.bean.BaseDict"/>
+		<many-to-one name="cust_level" lazy="false" class="com.itheima.bean.BaseDict"/>
+		
+		
+		<!-- 客户和联系人的关系是 一对多的关系 -->
+		<set name="linkMans">
+		
+			<!-- 这个key其实就是说，链接下面的那个LinkMan表的哪一个列 -->
+			<key >
+				<column name="lkm_cust_id"></column>
+			</key>
+			
+			<!-- 表示链接的是哪一个表就是说，和哪一个表建立关系 -->
+			<one-to-many class="com.itheima.bean.LinkMan"/>
+		</set>
+		
+	</class>
+</hibernate-mapping>
