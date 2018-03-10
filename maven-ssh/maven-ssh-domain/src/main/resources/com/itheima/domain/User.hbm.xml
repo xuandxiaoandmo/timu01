@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 1. 不规范 2. 随便写Hibernate认识吗 . 通过xml约束保证不能瞎写 -->
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.itheima.domain.User" table="user">
+		<id name="id" column="id">
+			<generator class="native"></generator>
+		</id>
+		<property name="username" column="username"></property>
+		<property name="password" column="password"></property>
+	
+	</class>
+
+</hibernate-mapping>
